@@ -16,16 +16,18 @@ Adding pom.xml this dependency
 
 
 <repositories>
-		<repository>
-			<id>adapter</id>
-			<url>https://raw.github.com/wadakc/functional-template/mvn-repo/</url>
-		</repository>
-	</repositories>
+	<repository>
+		<id>adapter</id>
+		<url>https://raw.github.com/wadakc/functional-template/mvn-repo/</url>
+	</repository>
+</repositories>
 ```
+
 
 You can use `functionaTemplate` as you use __RabbitTemplate__ . 
 Set callbackMethod.
-```
+
+```java
 functionalTemplate.setMessageConverter(jackson2JsonMessageConverter());
 functionalTemplate.setACKMethod(human,human.getClass().getMethod("getName"));
 functionalTemplate.convertAndSend("messageQueue",human);
