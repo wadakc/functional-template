@@ -3,7 +3,7 @@
 functiona-template is __rabbitTemplate__ Wrapper that make it easy to set callBack-function on message Recognition.
 
 Adding pom.xml this dependency 
-```
+```xml
 <dependency>
 		<groupId>func.spring</groupId>
 		<artifactId>rabbit</artifactId>
@@ -24,10 +24,8 @@ Adding pom.xml this dependency
 You can use `functionaTemplate` as you use __RabbitTemplate__ . 
 Set callbackMethod.
 
-```java:example
-
+```Java
 functionalTemplate.setMessageConverter(jackson2JsonMessageConverter());
 functionalTemplate.setACKMethod(human,human.getClass().getMethod("getName"));
 functionalTemplate.convertAndSend("messageQueue",human);
-
 ```
