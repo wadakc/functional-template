@@ -5,11 +5,11 @@
 
 	<groupId>func.spring</groupId>
 	<artifactId>rabbit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>rabbit</name>
-	<url>https://github.com/wadakc/function-template</url>
+	<url>https://github.com/wadakc/functional-template</url>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
