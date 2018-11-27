@@ -9,12 +9,9 @@ Adding pom.xml this dependency
 		<artifactId>rabbit</artifactId>
 		<version>1.0</version>
 </dependency>
-
 .
 .
 .
-
-
 <repositories>
 	<repository>
 		<id>adapter</id>
