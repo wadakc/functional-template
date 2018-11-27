@@ -1,3 +1,32 @@
 # functional-template
 
-functiona-template is rabbitTemplate Wrapper that make it easy to set callBack-function on message Recognition
+functiona-template is __rabbitTemplate__ Wrapper that make it easy to set callBack-function on message Recognition.
+
+Adding pom.xml this dependency 
+```
+<dependency>
+		<groupId>func.spring</groupId>
+		<artifactId>rabbit</artifactId>
+		<version>1.0</version>
+</dependency>
+
+.
+.
+.
+
+
+<repositories>
+		<repository>
+			<id>adapter</id>
+			<url>https://raw.github.com/wadakc/functional-template/mvn-repo/</url>
+		</repository>
+	</repositories>
+```
+
+You can use `functionaTemplate` as you use __RabbitTemplate__ . 
+Set callbackMethod.
+```
+functionalTemplate.setMessageConverter(jackson2JsonMessageConverter());
+functionalTemplate.setACKMethod(human,human.getClass().getMethod("getName"));
+functionalTemplate.convertAndSend("messageQueue",human);
+```
