@@ -13,8 +13,11 @@ import java.util.List;
 public class FunctionalTemplate extends RabbitTemplate {
 
 
-    private List<MethodObject> ackMethodList = new ArrayList<MethodObject>();
-    private List<MethodObject> noQueueMethodList = new ArrayList<MethodObject>();
+    private final List<MethodObject> ackMethodList = new ArrayList<MethodObject>();
+    private final List<MethodObject> notAckMethodList = new ArrayList<MethodObject>();
+    private final List<MethodObject> noQueueMethodList = new ArrayList<MethodObject>();
+
+    private String hostName;
 
     public FunctionalTemplate(){
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
@@ -22,33 +25,34 @@ public class FunctionalTemplate extends RabbitTemplate {
         this.setConnectionFactory(connectionFactory);
         final ConfirmCallback confirmCallback = (CorrelationData correlationData, boolean ack, String cause)  -> {
             if(!ack) {
-                System.err.println("not acked");
+                notAckMethodList.stream().forEach(MethodObject::invoke);
             }else {
-                System.out.println("acked");
-                ackMethodList.stream().forEach(methodObject -> {
-                    methodObject.invoke();
-                });
+                ackMethodList.stream().forEach(MethodObject::invoke);
             }
         };
         final RabbitTemplate.ReturnCallback returnCallback = (org.springframework.amqp.core.Message message, int replyCode, String replyText, String exchange, String routingKey) ->{
-            System.err.println("return exchange:" + exchange + " , routingKey:" + routingKey + ", replyCode:" + replyCode + ", replyText:" + replyText);
-            noQueueMethodList.stream().forEach(methodObject -> {
-                methodObject.invoke();
-            });
+            noQueueMethodList.stream().forEach(MethodObject::invoke);
         };
         this.setConfirmCallback(confirmCallback);
         this.setReturnCallback(returnCallback);
         this.setMandatory(true);
     }
 
-    public void setACKMethod(Object instance, Method method, Object ... args ) {
-        final MethodObject object = new MethodObject(instance,method,args);
-        ackMethodList.add(object);
+    public void setOnAckMethod(Object instance, Method method, Object ... args ) {
+        ackMethodList.add(methodObject(instance,method,args));
+    }
 
+    public void setNoAckedMethod(Object instance, Method method, Object ... args){
+        notAckMethodList.add(methodObject(instance,method,args));
     }
 
     public void setNoQueueMethod(Object instance,Method method,Object ... args ){
-        noQueueMethodList.add(new MethodObject(instance,method,args));
+        noQueueMethodList.add(methodObject(instance,method,args));
+    }
+
+
+    public static MethodObject methodObject(Object instance , Method method, Object ... args){
+        return new MethodObject(instance,method,args);
     }
 }
 
