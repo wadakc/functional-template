@@ -25,7 +25,7 @@ You can use `functionaTemplate` as you use __RabbitTemplate__ .
 Set callbackMethod.
 
 ```java:example
-functionalTemplate.setMessageConverter(jackson2JsonMessageConverter());
-functionalTemplate.setACKMethod(human,human.getClass().getMethod("getName"));
-functionalTemplate.convertAndSend("messageQueue",human);
+functionalTemplate.setMessageConverter(jackson2JsonMessageConverter()); // set property as you do on __rabbitTemplate__
+functionalTemplate.setACKMethod(human,human.getClass().getMethod("getName")); // set callback method on message-ack.
+functionalTemplate.convertAndSend("messageQueue",human); // publish. 
 ```
